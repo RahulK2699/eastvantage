@@ -1,13 +1,11 @@
 import axios, { AxiosResponse } from "axios";
-
-const BASE_URL:string  = process.env.BASE_URL || "https://randomuser.me";
+import { BASE_URL } from "./config.ts";
 
 const fetchData = async (path:string) => {
   try {
-
     const response:AxiosResponse = await axios.get(`${BASE_URL}/${path}`);
     return response.data;
-    
+
   }catch(err) {
 
     console.log(err);

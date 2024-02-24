@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Info, Results } from '../../types/profile-types'
+import Details from './Details.tsx'
+
+import call from '../../assets/call.svg'
+import email from '../../assets/mail.svg'
+import locationIcon from '../../assets/location-sharp.svg'
+import Button from '../common/Button.tsx'
 
 interface userData {
   results: Results,
@@ -7,39 +13,59 @@ interface userData {
 }
 
 type Props = {
-   userData :  userData | null
+   userData :  userData | null,
+   fetchUserData: Function
 }
 
 const ProfileData :React.FC<Props> = (props) => {
 
-  const [userData, setUserData] = useState<Results[]>([])
-  const { userData: data } = props;
+  const { userData: data, fetchUserData } = props;
+   const results: Results[] = (data?.results || []) as Results[];
 
-  useEffect(() => {
-    const results: Results[] = (data?.results || []) as Results[];
-    setUserData(results);
-  }, [data]);
-  
+
   return (
-    <div className='profile__info--container'>
+    <div className='profile__info'>
       {
-        userData.map((result) => {
-          const {name, location, id, picture } = result;
+        results.map((result) => {
+          const {name, id, picture, phone, email:emailId, location } = result;
           return (
-            <div key={id?.name} className='prodile__info--wrapper'>
-              <img 
-                className='prodile__info--profile-icon' 
-                src = {picture?.large} 
-                alt = "profile"
+            <div key={id?.name} className='profile__info--wrapper'>
+              <div className='profile__info--profile-icon__container'>
+                <img 
+                  className='profile__info--profile-icon' 
+                  src = {picture?.large} 
+                  alt = "profile"
+                />
+
+                <h1 className='profile__info--heading'>
+                  {name?.first} {name?.last}
+                </h1>
+
+              </div>
+              <div className='profile__info--empty-box'></div>
+              
+             <div className='profile__info--details'>
+            
+              <Details
+                icon={call}
+                label={"Phone"}
+                text={phone}
               />
 
-              <h1 className='prodile__info--heading'>
-                {name?.title} {name?.first} {name?.last}
-              </h1>
+              <Details
+                icon={email}
+                label={"Email"}
+                text={emailId}
+              />
 
-              <p className='prodile__info--address'>
-                {location?.city}, {location?.state} {location?.postcode}
-              </p>
+              <Details
+                icon={locationIcon}
+                label={"location"}
+                text={location?.city }
+              />
+             </div>
+
+            <Button className='profile__info--button' onClick={() => fetchUserData()}>Next Candidate</Button>
             </div>
           )
         })

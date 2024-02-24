@@ -1,0 +1,26 @@
+.button {
+
+  background: transparent;
+  outline: none;
+  transition: background .3s, color .3s, border-width .3s;
+  border-radius: .8rem;
+  font-weight: 500;
+  font-size: 1.4rem;
+  padding: .3rem .7rem;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: auto;
+  }
+
+  &:disabled > * {
+    opacity: .5;
+  }
+}
+
+
+

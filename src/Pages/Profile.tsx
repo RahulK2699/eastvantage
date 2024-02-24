@@ -13,10 +13,11 @@ const Profile = () => {
 
   const [userData, setUserData] = useState<userData | null>(null)
 
-  const fetchUserData = async () => {
+  const fetchUserData =  async() => {
     try {
       const res = await getUserData();
       setUserData(res);
+      
     }catch (err) {
       console.log(err)
     }
@@ -40,12 +41,21 @@ const Profile = () => {
 }
 
 // Limit function call using throttling
-const throttledFetchUserData = throttle(fetchUserData,200);
+const throttledFetchUserData = throttle(fetchUserData,300);
+
+if(!userData) {
+  return <div>Loading...</div>
+}
 
  return (
-  <div className='profile'>
-    <button onClick={() => throttledFetchUserData()}>Refresh</button>
-    <ProfileData userData={userData} />
+  <div className='profile__wrapper'>
+    <div className='profile'>
+      {/* <button className='profile__refresh-btn' onClick={() => throttledFetchUserData()}>Refresh</button> */}
+      <ProfileData 
+        userData={userData} 
+        fetchUserData={throttledFetchUserData}
+      />
+    </div>
   </div>
 )
 }
