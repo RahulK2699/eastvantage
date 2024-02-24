@@ -26,9 +26,25 @@ const Profile = () => {
     fetchUserData();
  },[])
 
+ const throttle = (myFunc:Function, delay:number)  => {
+  let timerId : any;
+
+  return function () {
+      const context = this;
+      const args = arguments;
+
+      clearTimeout(timerId);
+      timerId = setTimeout(() => myFunc.apply(context, args), delay);
+  }
+
+}
+
+// Limit function call using throttling
+const throttledFetchUserData = throttle(fetchUserData,200);
+
  return (
-  <div>
-    <button onClick={() => fetchUserData()}>Refresh</button>
+  <div className='profile'>
+    <button onClick={() => throttledFetchUserData()}>Refresh</button>
     <ProfileData userData={userData} />
   </div>
 )
