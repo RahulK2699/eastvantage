@@ -1,11 +1,15 @@
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import './App.css';
 import Profile from './Pages/Profile.tsx';
+
+
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Profile/>
+      <ToastContainer/>
     </div>
   );
 }

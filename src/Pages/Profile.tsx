@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { getUserData } from '../apis.ts'
+import React, { useEffect, useState } from 'react';
+import { AxiosResponse } from 'axios';
+import { getUserData } from '../Apis.ts';
+import { errorHandling, setDataToLocalStorage } from '../helper/helper.ts';
 
-import { Results, Info } from '../types/profile-types.ts'
-import ProfileData from '../components/Profile/ProfileData.tsx'
+import { Results, Info } from '../types/profile-types.ts';
+import ProfileData from '../components/Profile/ProfileData.tsx';
+import ShimmerUI from '../components/Profile/ShimmerUI.tsx';
+import { API_ERROR, LOCAL_STORAGE_KEY } from '../constants/constant.ts';
 
 interface userData {
+  info : Info,
   results: Results,
-  info : Info
 }
 
 const Profile = () => {
@@ -15,12 +19,11 @@ const Profile = () => {
 
   const fetchUserData =  async() => {
     try {
-      const res = await getUserData();
+      const res: AxiosResponse<userData> | any = await getUserData();
       setUserData(res);
+      setDataToLocalStorage(LOCAL_STORAGE_KEY, res);
       
-    }catch (err) {
-      console.log(err)
-    }
+    }catch (err) { errorHandling(API_ERROR)}
   }
 
   useEffect(() => {
@@ -44,13 +47,12 @@ const Profile = () => {
 const throttledFetchUserData = throttle(fetchUserData,300);
 
 if(!userData) {
-  return <div>Loading...</div>
+  return <ShimmerUI/>
 }
 
  return (
   <div className='profile__wrapper'>
     <div className='profile'>
-      {/* <button className='profile__refresh-btn' onClick={() => throttledFetchUserData()}>Refresh</button> */}
       <ProfileData 
         userData={userData} 
         fetchUserData={throttledFetchUserData}

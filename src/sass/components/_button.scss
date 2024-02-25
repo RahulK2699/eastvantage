@@ -2,7 +2,7 @@
 
   background: transparent;
   outline: none;
-  transition: background .3s, color .3s, border-width .3s;
+  transition: background .3s;
   border-radius: .8rem;
   font-weight: 500;
   font-size: 1.4rem;
@@ -12,6 +12,8 @@
   &:active {
     outline: none;
   }
+
+  // disabled  state
 
   &:disabled {
     cursor: auto;

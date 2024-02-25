@@ -1,11 +1,17 @@
 import React from 'react'
 import { Info, Results } from '../../types/profile-types'
-import Details from './Details.tsx'
+import { EMAIL, PHONE, LOCATION, NEXT_CANDITATE } from '../../constants/constant.ts'
 
-import call from '../../assets/call.svg'
-import email from '../../assets/mail.svg'
-import locationIcon from '../../assets/location-sharp.svg'
+import Details from './Details.tsx'
 import Button from '../common/Button.tsx'
+
+//@ts-ignore
+import call from '../../assets/call.svg'
+//@ts-ignore
+import email from '../../assets/mail.svg'
+//@ts-ignore
+import locationIcon from '../../assets/location-sharp.svg'
+
 
 interface userData {
   results: Results,
@@ -48,24 +54,29 @@ const ProfileData :React.FC<Props> = (props) => {
             
               <Details
                 icon={call}
-                label={"Phone"}
+                label={PHONE}
                 text={phone}
               />
 
               <Details
                 icon={email}
-                label={"Email"}
+                label={EMAIL}
                 text={emailId}
               />
 
               <Details
                 icon={locationIcon}
-                label={"location"}
+                label={LOCATION}
                 text={location?.city }
               />
              </div>
 
-            <Button className='profile__info--button' onClick={() => fetchUserData()}>Next Candidate</Button>
+            <Button 
+              className='profile__info--button' 
+              onClick={() => fetchUserData()}
+              >
+                {NEXT_CANDITATE}
+              </Button>
             </div>
           )
         })
